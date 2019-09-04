@@ -1,0 +1,20 @@
+{
+  "name": "tindev",
+  "version": "1.0.0",
+  "description": "Um \"tinder\" para devs utilizando React, React.js e NodeJS.",
+  "scripts": {
+    "start": "cd backend && node src/server.js",
+    "build": "cd backend && npm install && cd .. && cd frontend && npm install && npm run build && cd .."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/t4suya/tindev.git"
+  },
+  "keywords": [],
+  "author": "João Victor",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/t4suya/tindev/issues"
+  },
+  "homepage": "https://tindevreact.herokuapp.com/"
+}
