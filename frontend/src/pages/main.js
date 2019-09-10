@@ -8,10 +8,13 @@ import api from '../services/api';
 import io from 'socket.io-client';
 import itsamatch from '../assets/itsamatch.png';
 import Loading from '../assets/Double Ring-3.1s-200px.gif';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Main({match}){
     const [users, setUsers] = useState([]);
     const [matchDev,setMatchDev] = useState(null);
     const [loggedDev,setLoggedDev] = useState([]);
+    const [welcome, SetWelcome] = useState(null);
     useEffect(() => {
         async function loadUsers(){
             const response = await api.get('/devs', {
@@ -26,11 +29,12 @@ export default function Main({match}){
             })
             setLoggedDev(data.data);
             setUsers(response.data);
+            SetWelcome(data.data.name);
         }
         loadUsers();
     },[match.params.id]);
     useEffect (()=>{
-        const socket = io(process.env.REACT_APP_API,{
+        const socket = io(process.env.REACT_APP_API || "http://localhost:8080",{
             query: {user: match.params.id}
         });
         socket.on('match',dev =>{
@@ -57,6 +61,20 @@ export default function Main({match}){
                 </div>
         )
     }
+    class Welcome extends React.Component {
+        simulateClick(el){
+            if(el !== null && el !== undefined){
+                el.click();
+                SetWelcome(null);
+            }
+        }
+        welcome = () => toast(`Bem vindo ${loggedDev.name} `);
+        render(){
+          return (
+               <div className = 'phantom' ref={this.simulateClick} onClick={this.welcome}/>
+          );
+        }
+      }
         return (
         <div className= 'main-container'>
             <div className = 'logo-container'>
@@ -64,6 +82,9 @@ export default function Main({match}){
                 <Link to ='/'>;
                 <img src= {logo} alt="tindev"/>
                 </Link>
+               {welcome && (
+                   <Welcome/>
+               )}
             </div>
             { users.length >0 ?<ul>
                 {users.map(user =>(
