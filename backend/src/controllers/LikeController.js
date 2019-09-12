@@ -14,8 +14,8 @@ module.exports = {
             res.status(400).json({ error: 'Dev not Exists' });
         }
         LoggedDev.likes.push(TargetDev._id);
-        const loggedSocket = req.connectedUsers[user];
-        req.io.to(loggedSocket).emit('like', TargetDev.name);
+        /*const loggedSocket = req.connectedUsers[user];
+        req.io.to(loggedSocket).emit('like', TargetDev.name);*/
 
         if(TargetDev.likes.includes(LoggedDev._id)){
             const loggedSocket = req.connectedUsers[user];
