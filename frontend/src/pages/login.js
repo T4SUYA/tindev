@@ -10,7 +10,7 @@ export default function Login({history}){
     const [error, setError] = useState(null);
     async function handlesubmit (e){
         e.preventDefault();
-            await api.post('/devs',{
+        await api.post('/devs',{
                 username : username
             } )
             .then(response => {

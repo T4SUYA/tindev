@@ -22,7 +22,7 @@ module.exports = {
             return  res.json(UserExists);
         }
         try {
-            const response = await axios.get(
+            response = await axios.get(
                 `https://api.github.com/users/${username}`);
                 
         } catch (err) {

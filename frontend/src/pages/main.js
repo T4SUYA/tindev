@@ -15,6 +15,7 @@ export default function Main({match}){
     const [matchDev,setMatchDev] = useState(null);
     const [loggedDev,setLoggedDev] = useState([]);
     const [welcome, SetWelcome] = useState(null);
+    const [likeNotification, SetLike] = useState(null);
     useEffect(() => {
         async function loadUsers(){
             const response = await api.get('/devs', {
@@ -39,6 +40,9 @@ export default function Main({match}){
         });
         socket.on('match',dev =>{
             setMatchDev(dev);
+        })
+        socket.on('like', (dev) => {
+            SetLike(dev);
         })
     },[match.params.id]);
 
@@ -75,6 +79,20 @@ export default function Main({match}){
           );
         }
       }
+      class LikeNot extends React.Component {
+        simulateClick(el){
+            if(el !== null && el !== undefined){
+                el.click();
+                SetLike(null);
+            }
+        }
+        like = () => toast(`${loggedDev.name} deu like em ${likeNotification} `);
+        render(){
+          return (
+               <div className = 'phantom' ref={this.simulateClick} onClick={this.like}/>
+          );
+        }
+      }
         return (
         <div className= 'main-container'>
             <div className = 'logo-container'>
@@ -99,15 +117,18 @@ export default function Main({match}){
                     <button type= 'button' onClick = {() => handleDislike(user._id)}>
                         <img src = {dislike} alt = "dislike"/>
                     </button>
-                    <button type= 'button' onClick = {() => handleLike(user._id)}>
-                        <img src = {like} alt = "Like"/>
-                    </button>
+                        <button type= 'button' onClick = {() => handleLike(user._id)}>
+                            <img src = {like} alt = "Like"/>
+                        </button>
                     </div>
                 </li>
                 ))}
                 
             </ul> : (<div className = "empty"> Acabou ):</div>)
          }
+         {likeNotification && (
+             <LikeNot/>
+         )}
          {matchDev && (
                     <div className = 'match-container' >
                         <img src =  {itsamatch} alt= 'its a match' />
