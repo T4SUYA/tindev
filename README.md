@@ -1,6 +1,6 @@
 # Tindev
 
-Um "tinder" para devs utilizando React, ReactJS e NodeJS.
+Um "tinder" para devs utilizando React, React Native ReactJS e NodeJS.
 
 <!-- TOC -->
 
